@@ -23,6 +23,11 @@ namespace Clicker
         public MainWindow()
         {
             InitializeComponent();
+
+            MouseClickAction mca = new MouseClickAction();
+            mca.x = 500;
+            mca.y = 800;
+            mca.Execute();
         }
     }
 }
