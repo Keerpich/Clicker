@@ -24,10 +24,23 @@ namespace Clicker
         {
             InitializeComponent();
 
-            MouseClickAction mca = new MouseClickAction();
-            mca.x = 500;
-            mca.y = 800;
-            mca.Execute();
+            MouseClickAction mca1 = new MouseClickAction();
+            mca1.x = 500;
+            mca1.y = 800;
+
+            SleepAction sa = new SleepAction();
+
+            MouseClickAction mca2 = new MouseClickAction();
+            mca2.x = 1000;
+            mca2.y = 300;
+
+            Scenario scenario = new Scenario();
+
+            scenario.AddAction(mca1);
+            scenario.AddAction(sa);
+            scenario.AddAction(mca2);
+
+            scenario.Execute();
         }
     }
 }

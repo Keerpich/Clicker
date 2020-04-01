@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace Clicker
 {
-    class MouseClickAction : Action
+    class SleepAction : Action
     {
         public override void Execute()
         {
-            InputSimulatorWrapper.ClickAtLocation(x, y);
+            InputSimulatorWrapper.Sleep(TimeToSleepInMs);
         }
 
-        public int x;
-        public int y;
+        public int TimeToSleepInMs { get; set; } = 1000;
     }
 }
