@@ -10,10 +10,13 @@ namespace Clicker
     {
         public override void Execute()
         {
-            InputSimulatorWrapper.ClickAtLocation(x, y);
+            InputSimulatorWrapper.ClickAtLocation(X, Y);
         }
 
-        public int x;
-        public int y;
+        private int x;
+        private int y;
+
+        public int X { get => x; set => x = value; }
+        public int Y { get => y; set => y = value; }
     }
 }

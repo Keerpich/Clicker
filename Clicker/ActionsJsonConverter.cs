@@ -22,7 +22,7 @@ namespace Clicker
             {
                 JObject o = (JObject)t;
 
-                String objectType = value.GetType().Name;
+                String objectType = value.GetType().FullName;
                 o.AddFirst(new JProperty("ObjectType", objectType));
 
                 o.WriteTo(writer);
@@ -31,12 +31,20 @@ namespace Clicker
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
-        }
+            if (reader.TokenType == JsonToken.Null)
+                return null;
 
-        public override bool CanRead
-        {
-            get { return false; }
+            JObject jObject = JObject.Load(reader);
+
+            string actionTypeName = jObject.Property("ObjectType").Value.ToString();
+            Type actionType = Type.GetType(actionTypeName);
+            Object action = Activator.CreateInstance(actionType);
+
+            jObject.Remove("ObjectType");
+
+            serializer.Populate(jObject.CreateReader(), action);
+
+            return action;
         }
 
         public override bool CanConvert(Type objectType)

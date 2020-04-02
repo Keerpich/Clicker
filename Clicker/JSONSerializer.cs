@@ -14,5 +14,18 @@ namespace Clicker
             }
         }
 
+        public static Scenario DeserializeScenario()
+        {
+            Scenario result;
+
+            using (StreamReader file = File.OpenText(@"scenario_1.json"))
+            {
+                string content = file.ReadToEnd();
+                result = JsonConvert.DeserializeObject<Scenario>(content, new ActionsJsonConverter());
+            }
+
+            return result;
+        }
+
     }
 }
