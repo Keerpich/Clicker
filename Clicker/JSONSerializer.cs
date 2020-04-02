@@ -7,24 +7,24 @@ namespace Clicker
     {
         public static void SerializeScenario(Scenario scenario)
         {
-            using (StreamWriter file = File.CreateText(@"scenario_1.json"))
+            string fileName = string.Format("scenario_{0}.json", scenario.Name);
+
+            using (StreamWriter file = File.CreateText(fileName))
             {
                 string json = JsonConvert.SerializeObject(scenario, Formatting.Indented, new ActionsJsonConverter());
                 file.Write(json);
             }
         }
 
-        public static Scenario DeserializeScenario()
+        public static Scenario DeserializeScenario(string name)
         {
-            Scenario result;
+            string fileName = string.Format("scenario_{0}.json", name);
 
-            using (StreamReader file = File.OpenText(@"scenario_1.json"))
+            using (StreamReader file = File.OpenText(fileName))
             {
                 string content = file.ReadToEnd();
-                result = JsonConvert.DeserializeObject<Scenario>(content, new ActionsJsonConverter());
+                return JsonConvert.DeserializeObject<Scenario>(content, new ActionsJsonConverter());
             }
-
-            return result;
         }
 
     }

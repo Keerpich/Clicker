@@ -25,16 +25,16 @@ namespace Clicker
             InitializeComponent();
 
             //MouseClickAction mca1 = new MouseClickAction();
-            //mca1.x = 500;
-            //mca1.y = 800;
+            //mca1.X = 500;
+            //mca1.Y = 800;
 
             //SleepAction sa = new SleepAction();
 
             //MouseClickAction mca2 = new MouseClickAction();
-            //mca2.x = 1000;
-            //mca2.y = 300;
+            //mca2.X = 1000;
+            //mca2.Y = 300;
 
-            //Scenario scenario = new Scenario();
+            //Scenario scenario = new Scenario("Test");
 
             //scenario.AddAction(mca1);
             //scenario.AddAction(sa);
@@ -44,7 +44,7 @@ namespace Clicker
 
             //scenario.Execute();
 
-            Scenario scenario = JSONSerializer.DeserializeScenario();
+            Scenario scenario = JSONSerializer.DeserializeScenario("Test");
             scenario.Execute();
         }
     }
