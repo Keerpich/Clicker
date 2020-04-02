@@ -10,7 +10,7 @@ namespace Clicker
     {
         public void Execute()
         {
-            foreach(Action action in actions)
+            foreach (Action action in actions)
             {
                 action.Execute();
             }
@@ -21,6 +21,7 @@ namespace Clicker
             actions.Add(action);
         }
 
-        private List<Action> actions = new List<Action>();
+        private readonly List<Action> actions = new List<Action>();
+        public List<Action> Actions {get => actions;}
     }
 }

@@ -40,7 +40,9 @@ namespace Clicker
             scenario.AddAction(sa);
             scenario.AddAction(mca2);
 
-            scenario.Execute();
+            //scenario.Execute();
+
+            JSONSerializer.SerializeScenario(scenario);
         }
     }
 }

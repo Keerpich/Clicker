@@ -9,5 +9,7 @@ namespace Clicker
     abstract class Action
     {
         public abstract void Execute();
+
+        
     }
 }
