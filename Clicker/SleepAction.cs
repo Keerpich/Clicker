@@ -13,6 +13,6 @@ namespace Clicker
             InputSimulatorWrapper.Sleep(TimeToSleepInMs);
         }
 
-        public int TimeToSleepInMs { get; set; } = 1000;
+        public int TimeToSleepInMs { get; set; } = 500;
     }
 }

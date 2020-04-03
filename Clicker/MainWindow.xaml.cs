@@ -124,17 +124,6 @@ namespace Clicker
             currentScenario.Name = ScenarioNameTextBox.Text;
         }
 
-        private void OnButtonKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.F7)
-            {
-
-            }
-            else if (e.Key == Key.F8)
-            {
-            }
-        }
-
         private void ToggleScenarioButton_Click(object sender, RoutedEventArgs e)
         {
             ToggleScenarioExecution();
