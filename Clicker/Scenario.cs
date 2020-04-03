@@ -9,20 +9,27 @@ namespace Clicker
 {
     class Scenario
     {
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource cancellationTokenSource;
+        public bool IsExecuting { get; private set; } = false;
+        public List<Action> Actions { get; } = new List<Action>();
+        public String Name { get; set; }
 
         public Scenario(String name)
         {
-            this.name = name;
+            this.Name = name;
         }
 
         public void Execute()
         {
+            IsExecuting = true;
+
+            cancellationTokenSource = new CancellationTokenSource();
+
             Task actionExecutor = Task.Factory.StartNew(() =>
             {
                 while (true)
                 {
-                    foreach (Action action in actions)
+                    foreach (Action action in Actions)
                     {
                         if (cancellationTokenSource.IsCancellationRequested)
                             return;
@@ -35,18 +42,14 @@ namespace Clicker
 
         public void Stop()
         {
+            IsExecuting = false;
             cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
         }
 
         public void AddAction(Action action)
         {
-            actions.Add(action);
+            Actions.Add(action);
         }
-
-        private readonly List<Action> actions = new List<Action>();
-        private String name;
-
-        public List<Action> Actions {get => actions;}
-        public String Name { get => name; set => name = value; }
     }
 }

@@ -22,7 +22,7 @@ namespace Clicker
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const int stopHotkeyId = 1;
+        private const int toggleRunHotkeyId = 1;
 
         private Scenario currentScenario;
         private bool recording = false;
@@ -48,9 +48,9 @@ namespace Clicker
                 {
                     switch(wParam.ToInt32())
                     {
-                        case stopHotkeyId:
+                        case toggleRunHotkeyId:
                         {
-                            StopScenarioButton_Click(null, null);
+                            ToggleScenarioExecution();
                         }
                         break;
                     }
@@ -59,6 +59,20 @@ namespace Clicker
             }
 
             return IntPtr.Zero;
+        }
+
+        private void ToggleScenarioExecution()
+        {
+            bool isExecuting = currentScenario.IsExecuting;
+
+            if (isExecuting)
+            {
+                currentScenario.Stop();
+            }
+            else
+            {
+                currentScenario.Execute();
+            }
         }
 
         private void ScenarioNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -98,9 +112,9 @@ namespace Clicker
             }
         }
 
-        private void RunScenarioButton_Click(object sender, RoutedEventArgs e)
+        private void ToggleScenarioButton_Click(object sender, RoutedEventArgs e)
         {
-            currentScenario.Execute();
+            ToggleScenarioExecution();
         }
 
         private void OpenScenarioButton_Click(object sender, RoutedEventArgs e)
@@ -119,28 +133,36 @@ namespace Clicker
             {
                 String filename = openFileDialog.FileName;
                 currentScenario = JSONSerializer.DeserializeScenario(filename);
+
+                int lastSlash = filename.LastIndexOf(@"\");
+                int lastDot = filename.LastIndexOf(@".");
+                string strippedFileName = filename.Substring(lastSlash + 1, lastDot - lastSlash - 1);
+
+                ScenarioNameTextBox.Text = strippedFileName;
             }
         }
 
         private void Save_MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            JSONSerializer.SerializeScenario(currentScenario);
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Scenario Files (*.scen)|*.scen";
+            saveFileDialog.FileName = currentScenario.Name;
+            saveFileDialog.DefaultExt = "scen";
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.OverwritePrompt = true;
+
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK ||
+                saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
+            {
+                string fullPath = saveFileDialog.FileName;
+
+                JSONSerializer.SerializeScenario(currentScenario, fullPath);
+            }
         }
 
         private void Close_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            source.RemoveHook(WndProc);
-            InputSimulatorWrapper.UnregisterHotKey(stopHotkeyId);
-        }
-
-        private void StopScenarioButton_Click(object sender, RoutedEventArgs e)
-        {
-            currentScenario.Stop();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -150,7 +172,13 @@ namespace Clicker
             source = HwndSource.FromHwnd(helper.Handle);
             source.AddHook(WndProc);
 
-            InputSimulatorWrapper.RegisterHotKey(stopHotkeyId, InputSimulatorWrapper.VK_Codes.F6, InputSimulatorWrapper.Key_Modifiers.None);
+            InputSimulatorWrapper.RegisterHotKey(toggleRunHotkeyId, InputSimulatorWrapper.VK_Codes.F6, InputSimulatorWrapper.Key_Modifiers.None);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            source.RemoveHook(WndProc);
+            InputSimulatorWrapper.UnregisterHotKey(toggleRunHotkeyId);
         }
     }
 }

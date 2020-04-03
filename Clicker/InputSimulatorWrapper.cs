@@ -128,7 +128,7 @@ namespace Clicker
             IntPtr mainWindowHandle = new WindowInteropHelper(Application.Current.MainWindow).Handle;
 
             if (!UnregisterHotKey(mainWindowHandle, id))
-                throw new Exception("RegisterHotKey failed Win32 API call");
+                throw new Exception("UnregisterHotKey failed Win32 API call");
         }
         #endregion
     }

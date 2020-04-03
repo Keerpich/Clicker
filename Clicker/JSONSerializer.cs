@@ -5,11 +5,9 @@ namespace Clicker
 {
     class JSONSerializer
     {
-        public static void SerializeScenario(Scenario scenario)
+        public static void SerializeScenario(Scenario scenario, string fullPath)
         {
-            string fileName = string.Format("scenario_{0}.json", scenario.Name);
-
-            using (StreamWriter file = File.CreateText(fileName))
+            using (StreamWriter file = File.CreateText(fullPath))
             {
                 string json = JsonConvert.SerializeObject(scenario, Formatting.Indented, new ActionsJsonConverter());
                 file.Write(json);
