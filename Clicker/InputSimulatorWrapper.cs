@@ -43,7 +43,9 @@ namespace Clicker
         #region VK Codes
         public enum VK_Codes
         {
-            F6 = 0x75
+            F6 = 0x75,
+            F7 = 0x76,
+            F8 = 0x77
         };
         #endregion
 

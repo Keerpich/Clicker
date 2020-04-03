@@ -5,17 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clicker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="104.016" Width="401.801" AllowsTransparency="True" WindowStyle="None" Loaded="Window_Loaded" Closing="Window_Closing">
-  <Grid HorizontalAlignment="Left" Width="auto" Height="auto" Margin="0,0,0,0">
-    <Menu DockPanel.Dock="Top" Margin="0,0,0,0" Height="20" VerticalAlignment="Top">
+        Title="Fed Fucker (heh)" Height="125.058" Width="401.801" AllowsTransparency="False" WindowStyle="SingleBorderWindow" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="NoResize" Icon="{DynamicResource Icon}">
+  <Grid Width="auto" Height="auto" Margin="0,0,0,0">
+    <Menu Margin="0,0,0,0" Height="20" Width="auto" VerticalAlignment="Top" Grid.ColumnSpan="2">
       <MenuItem Header="_File">
         <MenuItem x:Name="Open_MenuItem" Header="_Open Scenario" Click="Open_MenuItem_Click"/>
         <MenuItem x:Name="Save_MenuItem" Header="_Save Scenario" Click="Save_MenuItem_Click"/>
         <MenuItem x:Name="Close_MenuItem" Header="_Close (Alt + F4)" Click="Close_MenuItem_Click"/>
       </MenuItem>
+      <MenuItem x:Name="About_MenuItem" Header="_About" Click="About_MenuItem_Click"/>
     </Menu>
-    <Button x:Name="RunScenarioButton" Content="Run/Stop Scenario (F6)" HorizontalAlignment="Left" Margin="100,66,0,0" VerticalAlignment="Top" Width="200" Height="28" Click="ToggleScenarioButton_Click"/>
-    <TextBox x:Name="ScenarioNameTextBox" HorizontalAlignment="Left" Height="23" Margin="133,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="268" FontSize="14"/>
-    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Scenario Name:" VerticalAlignment="Top" FontSize="14" Height="28" Width="103" Margin="10,23,0,0"/>
+    <Button x:Name="RunScenarioButton" Content="Run/Stop Scenario (F6)" HorizontalAlignment="Left" Margin="100,56,0,0" VerticalAlignment="Top" Width="200" Height="28" Click="ToggleScenarioButton_Click"/>
+    <TextBox x:Name="ScenarioNameTextBox" HorizontalAlignment="Left" Height="23" Margin="116,23,0,0" VerticalAlignment="Top" Width="268" FontSize="14" MaxLines="1"/>
+    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Scenario Name:" VerticalAlignment="Top" FontSize="14" Height="28" Width="103" Margin="10,23,0,0" Grid.ColumnSpan="2"/>
   </Grid>
 </Window>

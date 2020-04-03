@@ -5,5 +5,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
+        <BitmapImage x:Key="Icon" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="P:\C#Projects\Clicker\Clicker\icons8-klingon-head-48.png"/>
+
     </Application.Resources>
 </Application>

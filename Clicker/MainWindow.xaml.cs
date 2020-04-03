@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Clicker
 {
@@ -23,6 +24,8 @@ namespace Clicker
     public partial class MainWindow : Window
     {
         private const int toggleRunHotkeyId = 1;
+        private const int toggleScenarioRecordingHotkeyId = 2;
+        private const int recordMouseClickHotkeyId = 3;
 
         private Scenario currentScenario;
         private bool recording = false;
@@ -34,8 +37,6 @@ namespace Clicker
             InitializeComponent();
 
             ScenarioNameTextBox.TextChanged += ScenarioNameTextBox_TextChanged;
-
-            this.KeyDown += new System.Windows.Input.KeyEventHandler(OnButtonKeyDown);
 
             currentScenario = new Scenario(ScenarioNameTextBox.Text);
         }
@@ -53,6 +54,18 @@ namespace Clicker
                             ToggleScenarioExecution();
                         }
                         break;
+
+                        case toggleScenarioRecordingHotkeyId:
+                        {
+                            ToggleScenarioRecording();
+                        }
+                        break;
+
+                        case recordMouseClickHotkeyId:
+                        {
+                            RecordMouseClick();
+                        }
+                        break;
                     }
                 }
                 break;
@@ -68,47 +81,57 @@ namespace Clicker
             if (isExecuting)
             {
                 currentScenario.Stop();
+                WindowState = WindowState.Normal;
             }
             else
             {
                 currentScenario.Execute();
+                WindowState = WindowState.Minimized;
             }
+        }
+
+        private void ToggleScenarioRecording()
+        {
+            recording = !recording;
+
+            if (recording)
+            {
+                currentScenario = new Scenario(ScenarioNameTextBox.Text);
+                WindowState = WindowState.Minimized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+            }
+        }
+
+        private void RecordMouseClick()
+        {
+            var cursorPosition = InputSimulatorWrapper.GetMousePosition();
+
+            MouseClickAction clickAction = new MouseClickAction();
+            clickAction.X = (int)cursorPosition.X;
+            clickAction.Y = (int)cursorPosition.Y;
+
+            SleepAction sleepAction = new SleepAction();
+
+            currentScenario.AddAction(clickAction);
+            currentScenario.AddAction(sleepAction);
         }
 
         private void ScenarioNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            currentScenario = new Scenario(ScenarioNameTextBox.Text);
+            currentScenario.Name = ScenarioNameTextBox.Text;
         }
 
         private void OnButtonKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.F7)
             {
-                recording = !recording;
-
-                if (recording)
-                {
-                    currentScenario = new Scenario(ScenarioNameTextBox.Text);
-                    Opacity = 0;
-                }
-                else
-                {
-                    Opacity = 1;
-                }
 
             }
             else if (e.Key == Key.F8)
             {
-                var cursorPosition = InputSimulatorWrapper.GetMousePosition();
-
-                MouseClickAction clickAction = new MouseClickAction();
-                clickAction.X = (int)cursorPosition.X;
-                clickAction.Y = (int)cursorPosition.Y;
-
-                SleepAction sleepAction = new SleepAction();
-
-                currentScenario.AddAction(clickAction);
-                currentScenario.AddAction(sleepAction);
             }
         }
 
@@ -134,11 +157,7 @@ namespace Clicker
                 String filename = openFileDialog.FileName;
                 currentScenario = JSONSerializer.DeserializeScenario(filename);
 
-                int lastSlash = filename.LastIndexOf(@"\");
-                int lastDot = filename.LastIndexOf(@".");
-                string strippedFileName = filename.Substring(lastSlash + 1, lastDot - lastSlash - 1);
-
-                ScenarioNameTextBox.Text = strippedFileName;
+                ScenarioNameTextBox.Text = currentScenario.Name;
             }
         }
 
@@ -173,12 +192,21 @@ namespace Clicker
             source.AddHook(WndProc);
 
             InputSimulatorWrapper.RegisterHotKey(toggleRunHotkeyId, InputSimulatorWrapper.VK_Codes.F6, InputSimulatorWrapper.Key_Modifiers.None);
+            InputSimulatorWrapper.RegisterHotKey(toggleScenarioRecordingHotkeyId, InputSimulatorWrapper.VK_Codes.F7, InputSimulatorWrapper.Key_Modifiers.None);
+            InputSimulatorWrapper.RegisterHotKey(recordMouseClickHotkeyId, InputSimulatorWrapper.VK_Codes.F8, InputSimulatorWrapper.Key_Modifiers.None);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             source.RemoveHook(WndProc);
             InputSimulatorWrapper.UnregisterHotKey(toggleRunHotkeyId);
+            InputSimulatorWrapper.UnregisterHotKey(toggleScenarioRecordingHotkeyId);
+            InputSimulatorWrapper.UnregisterHotKey(recordMouseClickHotkeyId);
+        }
+
+        private void About_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("F7 - Start/stop recording scenario\nF8 - Record click at mouse position while recording scenario\nF6 - Run/stop current scenario");
         }
     }
 }
