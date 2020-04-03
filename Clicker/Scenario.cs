@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Clicker
 {
     class Scenario
     {
+        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
         public Scenario(String name)
         {
             this.name = name;
@@ -15,10 +18,24 @@ namespace Clicker
 
         public void Execute()
         {
-            foreach (Action action in actions)
+            Task actionExecutor = Task.Factory.StartNew(() =>
             {
-                action.Execute();
-            }
+                while (true)
+                {
+                    foreach (Action action in actions)
+                    {
+                        if (cancellationTokenSource.IsCancellationRequested)
+                            return;
+
+                        action.Execute();
+                    }
+                }
+            }, cancellationTokenSource.Token);
+        }
+
+        public void Stop()
+        {
+            cancellationTokenSource.Cancel();
         }
 
         public void AddAction(Action action)

@@ -16,11 +16,9 @@ namespace Clicker
             }
         }
 
-        public static Scenario DeserializeScenario(string name)
+        public static Scenario DeserializeScenario(string fullPath)
         {
-            string fileName = string.Format("scenario_{0}.json", name);
-
-            using (StreamReader file = File.OpenText(fileName))
+            using (StreamReader file = File.OpenText(fullPath))
             {
                 string content = file.ReadToEnd();
                 return JsonConvert.DeserializeObject<Scenario>(content, new ActionsJsonConverter());

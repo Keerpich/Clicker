@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clicker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="MainWindow" Height="502.355" Width="842.382" AllowsTransparency="True" WindowStyle="None" Closed="Window_Closed" Loaded="Window_Loaded">
+  <Grid HorizontalAlignment="Left" Width="832" Height="476" VerticalAlignment="Bottom" Margin="0,0,0,-5">
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="_File">
+        <MenuItem x:Name="Open_MenuItem" Header="_Open Scenario" Click="Open_MenuItem_Click"/>
+        <MenuItem x:Name="Save_MenuItem" Header="_Save Scenario" Click="Save_MenuItem_Click"/>
+        <MenuItem x:Name="Close_MenuItem" Header="_Close (Alt + F4)" Click="Close_MenuItem_Click"/>
+      </MenuItem>
+    </Menu>
+    <Button x:Name="RunScenarioButton" Content="Run Scenario" HorizontalAlignment="Left" Margin="524,400,0,0" VerticalAlignment="Top" Width="200" Height="28" Click="RunScenarioButton_Click"/>
+    <Button x:Name="StopScenarioButton" Content="Stop Scenario (F6)" HorizontalAlignment="Left" Margin="124,400,0,0" VerticalAlignment="Top" Width="200" Height="28" Click="StopScenarioButton_Click"/>
+    <Grid Margin="0,0,396,399" HorizontalAlignment="Right" Width="426" Height="49" VerticalAlignment="Bottom">
+      <TextBox x:Name="ScenarioNameTextBox" HorizontalAlignment="Left" Height="23" Margin="123,0,0,0" TextWrapping="Wrap" Text="clicker" VerticalAlignment="Top" Width="269" FontSize="14"/>
+      <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Scenario Name:" VerticalAlignment="Top" FontSize="14" Height="28" Width="103" Margin="0,0,323,0"/>
     </Grid>
+  </Grid>
 </Window>
