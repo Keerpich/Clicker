@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clicker"
         mc:Ignorable="d"
-        Title="Fed Fucker (heh)" Height="125.058" Width="401.801" AllowsTransparency="False" WindowStyle="SingleBorderWindow" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="NoResize" Icon="icons8-klingon-head-48.png">
+        Title="Clicker" Height="125.058" Width="401.801" AllowsTransparency="False" WindowStyle="SingleBorderWindow" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="NoResize">
   <Grid Width="auto" Height="auto" Margin="0,0,0,0">
     <Menu Margin="0,0,0,0" Height="20" Width="auto" VerticalAlignment="Top" Grid.ColumnSpan="2">
       <MenuItem Header="_File">

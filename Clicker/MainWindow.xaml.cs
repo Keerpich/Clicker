@@ -92,6 +92,9 @@ namespace Clicker
 
         private void ToggleScenarioRecording()
         {
+            if (currentScenario.IsExecuting)
+                return;
+
             recording = !recording;
 
             if (recording)

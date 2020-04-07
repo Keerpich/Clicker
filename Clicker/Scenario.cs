@@ -42,9 +42,12 @@ namespace Clicker
 
         public void Stop()
         {
-            IsExecuting = false;
-            cancellationTokenSource.Cancel();
-            cancellationTokenSource.Dispose();
+            if (IsExecuting)
+            {
+                IsExecuting = false;
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource.Dispose();
+            }
         }
 
         public void AddAction(Action action)
